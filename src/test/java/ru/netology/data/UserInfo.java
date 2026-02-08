@@ -5,6 +5,6 @@ import lombok.Value;
 @Value
 public class UserInfo {
     String city;
-    String fullName;
+    String name;
     String phone;
 }

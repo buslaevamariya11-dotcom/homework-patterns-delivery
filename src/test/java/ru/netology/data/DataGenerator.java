@@ -10,18 +10,31 @@ public class DataGenerator {
     private DataGenerator() {
     }
 
-    // Генерирует дату: текущая + количество дней
-    public static String generateDate(int addDays) {
-        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    public static String generateDate(int shift) {
+        return LocalDate.now().plusDays(shift).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    public static UserInfo generateUser(String locale) {
+    public static String generateCity() {
+        var cities = new String[]{"Москва", "Казань", "Новосибирск", "Нижний Новгород", "Хабаровск"};
+        return cities[(int) (Math.random() * cities.length)];
+    }
+
+    public static String generateName(String locale) {
         var faker = new Faker(new Locale(locale));
-        return new UserInfo(
-                faker.address().city(),
-                // Генерируем ФИО и сразу убираем букву ё/Ё для стабильности
-                (faker.name().lastName() + " " + faker.name().firstName()).replace("ё", "е").replace("Ё", "Е"),
-                faker.phoneNumber().phoneNumber()
-        );
+        return faker.name().lastName() + " " + faker.name().firstName();
+    }
+
+    public static String generatePhone(String locale) {
+        var faker = new Faker(new Locale(locale));
+        return faker.phoneNumber().phoneNumber();
+    }
+
+    public static class Registration {
+        private Registration() {
+        }
+
+        public static UserInfo generateUser(String locale) {
+            return new UserInfo(generateCity(), generateName(locale), generatePhone(locale));
+        }
     }
 }
