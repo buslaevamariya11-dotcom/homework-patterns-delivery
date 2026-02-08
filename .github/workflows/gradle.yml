@@ -19,9 +19,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Start SUT
-
+        # Запускаем jar из папки artifacts в фоновом режиме
         run: java -jar ./artifacts/app-replan-delivery.jar &
 
       - name: Build with Gradle
-
-        run: ./gradlew test -Dselenide.headless=true --info
+        # Ожидаем запуск сервера и запускаем тесты в headless режиме
+        run: |
+          sleep 15
+          ./gradlew test -Dselenide.headless=true --info
